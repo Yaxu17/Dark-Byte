@@ -1,1 +1,113 @@
-Arbaaz
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentLens | AI Resume Screening</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HERO -->
+  <header class="hero animate-on-scroll">
+    <canvas id="particleCanvas"></canvas>
+    <div class="hero-content">
+      <h1>TalentLens</h1>
+      <p>AI-Powered Semantic Resume Screening Platform</p>
+      <span id="heroSubtitle"></span>
+    </div>
+  </header>
+
+  <!-- TRUSTED BY -->
+  <section class="brands animate-on-scroll">
+    <p>Trusted by hiring teams worldwide</p>
+    <div class="logo-row">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google">
+      <img src="https://static.vecteezy.com/system/resources/previews/020/336/451/non_2x/infosys-logo-infosys-icon-free-free-vector.jpg" alt="Infosys">
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features animate-on-scroll">
+    <h2>Why TalentLens?</h2>
+    <div class="feature-grid">
+      <div class="feature-card tilt-card">
+        <h3>🧠 Semantic AI</h3>
+        <p>Understands intent & meaning, not just keywords. Revolutionize your hiring with deep learning insights.</p>
+      </div>
+      <div class="feature-card tilt-card">
+        <h3>⚡ Faster Hiring</h3>
+        <p>Reduce screening time by 70%. Automate the mundane and focus on what matters.</p>
+      </div>
+      <div class="feature-card tilt-card">
+        <h3>🎯 Accurate Matches</h3>
+        <p>Ranks candidates by true relevance. Say goodbye to mismatched hires.</p>
+      </div>
+      <div class="feature-card tilt-card">
+        <h3>📊 Recruiter Insights</h3>
+        <p>Clear scores and analytics. Data-driven decisions at your fingertips.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN APP -->
+  <section class="main animate-on-scroll">
+    <div class="card tilt-card">
+      <h2>📄 Job Description</h2>
+      <textarea id="jdInput" placeholder="Paste your job description here..."></textarea>
+      <label class="upload-label">
+        📎 Upload Resume (PDF)
+        <input type="file" id="pdfUpload" accept="application/pdf">
+      </label>
+      <button onclick="matchResumes()">Analyze Resumes</button>
+      <p id="error"></p>
+    </div>
+
+    <div class="card tilt-card">
+      <h2>✅ Shortlisted Candidates</h2>
+      <div class="filters">
+        <button onclick="filterResults(5)">Top 5</button>
+        <button onclick="filterResults(70)">Score ≥ 70%</button>
+        <button onclick="showAll()">Show All</button>
+      </div>
+      <div id="loader" class="loader hidden">
+        🤖 AI is analyzing resumes...
+      </div>
+      <div id="results"></div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div class="card tilt-card">
+      <h2>📊 Admin Dashboard (Preview)</h2>
+      <div class="stats">
+        <div class="stat-card tilt-card">
+          <h3>Total Resumes</h3>
+          <b id="totalResumes">0</b>
+        </div>
+        <div class="stat-card tilt-card">
+          <h3>Shortlisted</h3>
+          <b id="shortlisted">0</b>
+        </div>
+        <div class="stat-card tilt-card">
+          <h3>Rejected</h3>
+          <b id="rejected">0</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="animate-on-scroll">
+    <h3>TalentLens</h3>
+    <p>Smart. Fast. Semantic Hiring.</p>
+    <p>© 2026 TalentLens. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+

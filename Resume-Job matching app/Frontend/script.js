@@ -1,3 +1,29 @@
+const API = "http://127.0.0.1:8000";
+async function login(email, password) {
+  const res = await fetch(`${API}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  if (!data.success) {
+    alert("Login failed");
+    return;
+  }
+
+  localStorage.setItem("role", data.role);
+  localStorage.setItem("token", data.token);
+
+  location.reload();
+}
+
+function logout() {
+  localStorage.clear();
+  location.reload();
+}
+
 let allResults = [];
 
 // Particle system variables
@@ -275,5 +301,65 @@ document.getElementById("pdfUpload").addEventListener("change", function(event) 
   }
 });
 
+async function renderDashboard() {
+  const role = localStorage.getItem("role");
+  const dashboard = document.getElementById("dashboardCard");
+
+  if (!dashboard) return;
+
+  if (!role) {
+    dashboard.innerHTML = `
+      <h2>🔒 Please Login</h2>
+      <p>Select a role from the top-right buttons.</p>
+    `;
+    return;
+  }
+
+  const res = await fetch(`${API}/dashboard/${role}`);
+  const data = await res.json();
+
+  // Admin / HR
+  if (role === "admin" || role === "hr") {
+    dashboard.innerHTML = `
+      <h2>📊 Admin Dashboard</h2>
+      <div class="stats">
+        <div class="stat-card tilt-card">
+          <h3>Total Resumes</h3>
+          <b>${data.total_resumes}</b>
+        </div>
+        <div class="stat-card tilt-card">
+          <h3>Shortlisted</h3>
+          <b>${data.shortlisted}</b>
+        </div>
+        <div class="stat-card tilt-card">
+          <h3>Rejected</h3>
+          <b>${data.rejected}</b>
+        </div>
+      </div>
+    `;
+  }
+  // User / Employee
+  else {
+    dashboard.innerHTML = `
+      <h2>👤 My Dashboard</h2>
+      <div class="stats">
+        <div class="stat-card tilt-card">
+          <h3>Resumes Uploaded</h3>
+          <b>${data.uploaded}</b>
+        </div>
+        <div class="stat-card tilt-card">
+          <h3>Status</h3>
+          <b>${data.status}</b>
+        </div>
+        <div class="stat-card tilt-card">
+          <h3>Best Match</h3>
+          <b>${data.best_match}</b>
+        </div>
+      </div>
+    `;
+  }
+}
+
+renderDashboard();
 
 

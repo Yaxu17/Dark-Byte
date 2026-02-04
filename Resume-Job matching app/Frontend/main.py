@@ -1,12 +1,15 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import PyPDF2
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = FastAPI()
 
-# Allow frontend to talk to backend
+# -------------------------------
+# CORS
+# -------------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -14,6 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# -------------------------------
+# RESUME MATCHING LOGIC (OLD)
+# -------------------------------
 def extract_text_from_pdf(file):
     reader = PyPDF2.PdfReader(file)
     text = ""
@@ -56,3 +62,48 @@ async def match_resumes(
         })
 
     return results
+
+# -------------------------------
+# AUTH (NEW)
+# -------------------------------
+FAKE_USERS = {
+    "admin@talentlens.com": {"password": "admin123", "role": "admin"},
+    "hr@talentlens.com": {"password": "hr123", "role": "hr"},
+    "user@talentlens.com": {"password": "user123", "role": "user"},
+    "employee@talentlens.com": {"password": "emp123", "role": "employee"},
+}
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+@app.post("/login")
+def login(data: LoginRequest):
+    user = FAKE_USERS.get(data.email)
+
+    if not user or user["password"] != data.password:
+        return {"success": False, "message": "Invalid credentials"}
+
+    return {
+        "success": True,
+        "role": user["role"],
+        "token": "fake-jwt-token"
+    }
+
+# -------------------------------
+# DASHBOARD (NEW)
+# -------------------------------
+@app.get("/dashboard/{role}")
+def dashboard(role: str):
+    if role in ["admin", "hr"]:
+        return {
+            "total_resumes": 150,
+            "shortlisted": 120,
+            "rejected": 30
+        }
+
+    return {
+        "uploaded": 1,
+        "status": "Pending",
+        "best_match": "—"
+    }

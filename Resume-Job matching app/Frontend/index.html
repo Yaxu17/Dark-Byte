@@ -8,6 +8,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- TEMP LOGIN PANEL -->
+  <div style="position:fixed; top:15px; right:15px; z-index:999;">
+    <button onclick="login('admin@talentlens.com','admin123')">Admin</button>
+    <button onclick="login('hr@talentlens.com','hr123')">HR</button>
+    <button onclick="login('user@talentlens.com','user123')">User</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
   <!-- HERO -->
   <header class="hero animate-on-scroll">
     <canvas id="particleCanvas"></canvas>
@@ -77,26 +85,13 @@
       </div>
       <div id="results"></div>
     </div>
-
-    <!-- ADMIN DASHBOARD -->
-    <div class="card tilt-card">
-      <h2>📊 Admin Dashboard (Preview)</h2>
-      <div class="stats">
-        <div class="stat-card tilt-card">
-          <h3>Total Resumes</h3>
-          <b id="totalResumes">0</b>
-        </div>
-        <div class="stat-card tilt-card">
-          <h3>Shortlisted</h3>
-          <b id="shortlisted">0</b>
-        </div>
-        <div class="stat-card tilt-card">
-          <h3>Rejected</h3>
-          <b id="rejected">0</b>
-        </div>
-      </div>
+    <!-- ROLE BASED DASHBOARD -->
+    <div class="card tilt-card" id="dashboardCard">
+    <!-- JS will inject content here -->
     </div>
-  </section>
+
+
+
 
   <!-- FOOTER -->
   <footer class="animate-on-scroll">
